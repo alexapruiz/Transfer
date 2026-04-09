@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
-
+aa
 rem =========================================================
 rem CONFIGURACAO
 rem =========================================================

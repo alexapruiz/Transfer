@@ -1,0 +1,72 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[fato_repositorio](
+	[id] [varchar](70) NOT NULL,
+	[git_source] [varchar](255) NOT NULL,
+	[nome] [nvarchar](255) NOT NULL,
+	[ultima_branch_consultada] [nvarchar](255) NULL,
+	[criado_em] [datetime] NULL,
+	[atualizado_em] [datetime] NULL,
+	[quantidade_branchs] [int] NULL,
+	[projeto_id] [varchar](255) NULL,
+ CONSTRAINT [pk_fato_repositorio] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC,
+	[git_source] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[fato_repositorio] ADD  DEFAULT (getdate()) FOR [criado_em]
+GO
+ALTER TABLE [dbo].[fato_repositorio] ADD  DEFAULT (getdate()) FOR [atualizado_em]
+GO
+ALTER TABLE [dbo].[fato_repositorio] ADD  DEFAULT ((0)) FOR [quantidade_branchs]
+GO
+
+
+
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[fato_commit](
+	[repo_id] [varchar](50) NOT NULL,
+	[repo_name] [varchar](250) NULL,
+	[repo_url] [varchar](255) NULL,
+	[commit_id] [varchar](50) NOT NULL,
+	[commit_user_name] [varchar](255) NULL,
+	[commit_email] [varchar](255) NULL,
+	[repo_branch_name] [varchar](200) NOT NULL,
+	[commit_date] [datetime2](7) NULL,
+ CONSTRAINT [PK_fato_commit] PRIMARY KEY CLUSTERED 
+(
+	[repo_id] ASC,
+	[commit_id] ASC,
+	[repo_branch_name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+CREATE NONCLUSTERED INDEX [IX_fato_commit_commit_id] ON [dbo].[fato_commit]
+(
+	[commit_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+CREATE NONCLUSTERED INDEX [IX_fato_commit_repo_commit_date] ON [dbo].[fato_commit]
+(
+	[repo_id] ASC,
+	[commit_date] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+
+
+
+
